@@ -1,0 +1,16 @@
+<div class="container">
+  <h1>All My Peeps</h1>
+  {{#each contact}}
+  <div class="row">
+    <div class="col-md-2">
+    </div>
+    <div class="col-md-6">
+      <a href="/contacts/{{ this.id }}"><h2>{{ this.first_name }}</h2></a>
+      <p>email: {{ this.email }}</p>
+      <p>phone: {{ this.phone }}</p>
+      <!-- <a href="/contacts/{{ this.id }}/edit" type="button" name="button" class="btn btn-success"
+      id="edit-button">Edit</a> -->
+    </div>
+  </div>
+  {{/each}}
+</div>
