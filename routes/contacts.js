@@ -4,14 +4,18 @@ var db = require('../db/connection');
 
 //======== GET ALL CONTACTS ========
 router.get('/', function(req, res, next) {
-  // db('contacts').select('*').orderBy('last_name')
-  // .then(snack => {
-  //   res.render('contacts/index', { contact });
-  // })
-  // .catch(err => {
-  //   next(err);
-  // })
-  res.render()
+  console.log("in the router.get function \n");
+  var fullName = req.res.first_name + " " + req.res.last_name
+  knex('contacts')
+    .select('*')
+    .orderBy('last_name')
+    .join('addresses', 'contacts.addressId', 'addresses.id')
+  .then(contact => {
+    res.render('contacts/index', { contact });
+  })
+  .catch(err => {
+    next(err);
+  })
 });
 
 // ===== CREATE A NEW CONTACT ======
@@ -20,6 +24,7 @@ router.get('/', function(req, res, next) {
 // else (this means the address already exists)
 // make the addressId field of the new contact = req.params.addressId
 router.post('/', function(req, res, next) {
+  console.log("in the router.post function \n");
   var id = req.params.id
   var contact = {
     first_name: req.body.first_name,
@@ -47,6 +52,7 @@ router.post('/', function(req, res, next) {
 
 // ====== UPDATE ONE SNACK CONTACT ======
 router.put('/:id', function(req, res, next) {
+  console.log("in the router.put function \n");
   var id = req.params.id
   var contact = {
     first_name: req.body.first_name,

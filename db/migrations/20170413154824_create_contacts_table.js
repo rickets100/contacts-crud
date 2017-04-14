@@ -6,7 +6,8 @@ exports.up = (knex) => {
     table.string('last_name').notNullable()
     table.string('phone_number').notNullable()
     table.string('email_address').notNullable()
-    table.integer('address_fk').unsigned().index().references('addresses.id')
+    table.integer('address_id').notNullable().references('id').inTable('addresses')
+  })
 }
 
 exports.down = (knex) => {
