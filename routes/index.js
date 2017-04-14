@@ -3,7 +3,7 @@ var router = express.Router();
 
 //======== GET INDEX PAGE ========
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'My Contacts' });
+  res.redirect('/contacts');
 });
 
 module.exports = router;

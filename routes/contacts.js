@@ -5,18 +5,24 @@ var db = require('../db/connection');
 //======== GET ALL CONTACTS ========
 router.get('/', function(req, res, next) {
   console.log("in the router.get function \n");
-  var fullName = req.res.first_name + " " + req.res.last_name
-  knex('contacts')
+  db('contacts')
     .select('*')
+    .innerJoin('addresses', 'contacts.address_id', 'addresses.id')
     .orderBy('last_name')
-    .join('addresses', 'contacts.addressId', 'addresses.id')
   .then(contact => {
-    res.render('contacts/index', { contact });
+    console.log(contact);
+    // res.render('shared/_form')
+    res.render('contacts', { contact });
   })
   .catch(err => {
     next(err);
   })
 });
+
+// ========= GET FORMS PAGE ========
+router.get('/new', (req, res, next) => {
+  res.render('new')
+})
 
 // ===== CREATE A NEW CONTACT ======
 // create a new contact, with the proviso:
@@ -26,28 +32,31 @@ router.get('/', function(req, res, next) {
 router.post('/', function(req, res, next) {
   console.log("in the router.post function \n");
   var id = req.params.id
+  var address = {
+    line_1: req.body.line_1,
+    last_name: req.body.last_name,
+    phone: req.body.phone,
+    email: req.body.email,
+    address_id: req.body.address_id
+  }
+
   var contact = {
     first_name: req.body.first_name,
     last_name: req.body.last_name,
     phone: req.body.phone,
     email: req.body.email,
-    addressId: req.body.addressId
   }
-  db('contacts')
-  .insert(contact, '*')
-  .where({ id })
-  .then((newContact) => {
-    console.log('in the router.post then section \n');
-    // var newId = (newContact[0].id)
-    // newPath=(`contacts/${newId}`)
-    // res.redirect(newPath)
-
-    // for now, just to got index page to show that something happened
-    res.redirect('index', { title: 'My Contacts' })
-  })
-  .catch(err => {
-    next(err);
-  })
+//   db('contacts')
+//   .insert(contact, '*')
+//   .where({ id })
+//   .then((newContact) => {
+//     console.log('in the router.post then section \n');
+//     res.redirect('index', { title: 'My Contacts' })
+//   })
+//   .catch(err => {
+//     next(err);
+//   })
+  res.redirect('views/shared/_form')
 })
 
 // ====== UPDATE ONE SNACK CONTACT ======

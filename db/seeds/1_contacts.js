@@ -1,7 +1,7 @@
 
 exports.seed = function(knex, Promise) {
   // Deletes ALL existing entries
-  return knex('contacts').del()
+  return knex('contacts')
     .then(function () {
       // Inserts seed entries
       return knex('contacts').insert([
@@ -36,6 +36,14 @@ exports.seed = function(knex, Promise) {
           phone_number: '555-555-8888',
           email_address: 'mmark@gmail.com',
           address_id: 1
+        },
+        {
+          id: 5,
+          first_name: 'Bob',
+          last_name: 'Hope',
+          phone_number: '555-555-9999',
+          email_address: 'bhope@comcast.net',
+          address_id: 2
         }
       ]);
     })
