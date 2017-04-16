@@ -1,12 +1,12 @@
 <div class="container">
   <h1>Edit {{ contact.first_name }}</h1>
   <hr>
-  <form method="POST" action="/contacts/{{ contact.id }}?_method=PUT" class="well">
+  <form method="POST" action="/contacts/{{#if contact.id }}{{ contact.id }}?_method=PUT{{/if}}" class="well">
     <div class="row">
       <div class="col-md-6">
         <div class="form-group">
           <label for="first-name">First Name</label>
-          <input type="text" class="form-control" id="first-name" value= "{{ contact.first_name}}" name="first-name">
+          <input type="text" class="form-control" id="first-name" value= "{{ contact.first_name}}" name="first_name">
         </div>
 
       <!-- LAST NAME -->
@@ -14,7 +14,7 @@
       <div class="col-md-6">
         <div class="form-group">
           <label for="last-name">Last Name</label>
-          <input type="text" class="form-control" id="last_name" value= "{{ contact.last_name }}" name="last-name">
+          <input type="text" class="form-control" id="last_name" value= "{{ contact.last_name }}" name="last_name">
         </div>
       </div>
     </div>
@@ -26,7 +26,7 @@
       <div class="col-md-6">
         <div class="form-group">
           <label for="phone-number">Phone</label>
-          <input type="text" class="form-control" id="phone-number" value= "{{ contact.phone_number}}" name="phone-number">
+          <input type="text" class="form-control" id="phone-number" value= "{{ contact.phone_number}}" name="phone_number">
         </div>
       </div>
     </div>
@@ -36,7 +36,7 @@
       <div class="col-md-12">
         <div class="form-group">
           <label for="email-address">Email Address</label>
-          <input type="email" min="0" max="10" class="form-control" id="email-address" value= "{{ contact.email_address}}" name="email-address">
+          <input type="email" min="0" max="10" class="form-control" id="email-address" value= "{{ contact.email_address}}" name="email_address">
         </div>
       </div>
     </div>
@@ -46,7 +46,7 @@
       <div class="col-md-12">
         <div class="form-group">
           <label for="line-1">Address 1</label>
-          <input type="text"  class="form-control" id="line-1" value= "{{ address.line_1}}" name="line-1">
+          <input type="text"  class="form-control" id="line-1" value= "{{ address.line_1}}" name="line_1">
         </div>
       </div>
     </div>
@@ -55,7 +55,7 @@
       <div class="col-md-12">
         <div class="form-group">
           <label for="line-2">Address 2</label>
-          <input type="text"  class="form-control" id="line-2" value= "{{ address.line_2}}" name="line-2">
+          <input type="text"  class="form-control" id="line-2" value= "{{ address.line_2}}" name="line_2">
         </div>
       </div>
     </div>

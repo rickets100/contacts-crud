@@ -10,9 +10,14 @@
       <p>phone: {{ this.phone_number }}</p>
       <p>line_1: {{ this.line_1 }}</p>
       <p>line_2: {{ this.line_2 }}</p>
-      <a href="/contacts/{{ this.id }}/edit" type="button" name="button" class="btn btn-success"
-      id="edit-button">Edit</a>
-    </div>
+      <form action="/contacts/{{ this.id }}?_method=DELETE" method="POST">
+        <input
+          class="btn btn-sm btn-default"
+          type="submit"
+          name="delete"
+          value="Delete Contact">
+        </form>
+      </div>
   </div>
   {{/each}}
 </div>
