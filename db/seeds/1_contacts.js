@@ -9,7 +9,7 @@ exports.seed = function(knex, Promise) {
           id: 1,
           first_name: 'Genghis',
           last_name: 'Khan',
-          phone_number: '555-555-5555',
+          phone_number: '555-555-4444',
           email_address: 'gkhan@gmail.com',
           address_id: 4
         },
@@ -17,7 +17,7 @@ exports.seed = function(knex, Promise) {
           id: 2,
           first_name: 'Fig',
           last_name: 'Newton',
-          phone_number: '555-555-6666',
+          phone_number: '555-555-3333',
           email_address: 'fnewton@gmail.com',
           address_id: 3
         },
@@ -25,7 +25,7 @@ exports.seed = function(knex, Promise) {
           id: 3,
           first_name: 'Betty',
           last_name: 'White',
-          phone_number: '555-555-7777',
+          phone_number: '555-555-2222',
           email_address: 'bwhite@gmail.com',
           address_id: 2
         },
@@ -33,7 +33,7 @@ exports.seed = function(knex, Promise) {
           id: 4,
           first_name: 'Markie',
           last_name: 'Mark',
-          phone_number: '555-555-8888',
+          phone_number: '555-555-1111',
           email_address: 'mmark@gmail.com',
           address_id: 1
         },
@@ -41,9 +41,17 @@ exports.seed = function(knex, Promise) {
           id: 5,
           first_name: 'Bob',
           last_name: 'Hope',
-          phone_number: '555-555-9999',
+          phone_number: '555-555-2222',
           email_address: 'bhope@comcast.net',
           address_id: 2
+        },
+        {
+          id: 6,
+          first_name: 'Abe',
+          last_name: 'Vigoda',
+          phone_number: '555-555-5555',
+          email_address: 'avigoda@gmail.com',
+          address_id: 5
         }
       ])
     })

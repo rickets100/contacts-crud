@@ -14,11 +14,12 @@
       <p>zip: {{ this.zip }}</p>
       <form action="/contacts/{{ this.id }}?_method=DELETE" method="POST">
         <input
-          class="btn btn-sm btn-default"
+          class="btn btn-success"
           type="submit"
           name="delete"
           value="Delete Contact">
         </form>
+        <hr>
       </div>
   </div>
   {{/each}}

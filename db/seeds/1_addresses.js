@@ -10,28 +10,35 @@ exports.seed = function(knex, Promise) {
           line_1: '12',
           line_2: 'Bailey St.',
           city: 'Springfield',
-          zip: '55555'
+          zip: '11111'
         },
         {
           id: 2,
           line_1: '34',
           line_2:  'Bailey St.',
           city: 'Moscow',
-          zip: '66666'
+          zip: '22222'
         },
         {
           id: 3,
           line_1: '56',
           line_2:  'Blink St.',
           city: 'Boston',
-          zip: '77777'
+          zip: '33333'
         },
         {
           id: 4,
           line_1: '78',
           line_2: 'Marmot St.',
           city: 'Dubuque',
-          zip: '88888'
+          zip: '44444'
+        },
+        {
+          id: 5,
+          line_1: '4432',
+          line_2: 'Cascade St.',
+          city: 'Ames',
+          zip: '55555'
         }
       ])
     })

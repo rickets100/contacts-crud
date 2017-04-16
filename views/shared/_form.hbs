@@ -1,6 +1,4 @@
 <div class="container">
-  <h1>Edit {{ contact.first_name }}</h1>
-  <hr>
   <form method="POST" action="/contacts/{{#if contact.id }}{{ contact.id }}?_method=PUT{{/if}}" class="well">
     <div class="row">
       <div class="col-md-6">
@@ -73,7 +71,7 @@
       <div class="col-md-12">
         <div class="form-group">
           <label for="zip">Zip Code</label>
-          <input type="text"  class="form-control" id="zip" value= "{{ address.zip}}" name="zip">
+          <input type="text"  class="form-control" id="zip" value= "{{ address.zip}}" name="zip" pattern="\d{5}-?(\d{4})?">
         </div>
       </div>
     </div>
