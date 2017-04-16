@@ -1,20 +1,20 @@
-var express = require('express');
-var router = express.Router();
-var db = require('../db/connection');
+var express = require('express')
+var router = express.Router()
+var db = require('../db/connection')
 
 //======== GET ALL CONTACTS ========
 router.get('/', function(req, res, next) {
-  console.log("in the router.get function \n");
+  console.log("in the router.get function \n")
   db('contacts')
     .select('contacts.id', 'first_name', 'last_name', 'phone_number', 'email_address', 'address_id', 'line_1', 'line_2', 'city', 'zip')
     .innerJoin('addresses', 'contacts.address_id', 'addresses.id')
     .orderBy('last_name')
   .then(contact => {
     // res.render('shared/_form')
-    res.render('contacts', { contact });
+    res.render('contacts', { contact })
   })
   .catch(err => {
-    next(err);
+    next(err)
   })
 })
 
@@ -31,7 +31,7 @@ router.get('/new', (req, res, next) => {
 // make the addressId field of the new contact = req.params.addressId
 
 router.post('/', (req, res, next) => {
-  console.log(req.body);
+  console.log(req.body)
   let newAddress = {
     line_1: req.body.line_1,
     line_2: req.body.line_2,
@@ -53,13 +53,13 @@ router.post('/', (req, res, next) => {
     .insert(newContact)
     .returning('id')
   }).then(id => {
-    res.redirect('/contacts')
+      res.redirect('/contacts')
   })
 })
 
-// ====== UPDATE ONE SNACK CONTACT ======
+// ====== UPDATE ONE CONTACT ======
 router.put('/:id', function(req, res, next) {
-  console.log("in the router.put function \n");
+  console.log("in the router.put function \n")
   var address = {
     line_1: req.body.line_1,
     line_2: req.body.line_2,
@@ -82,11 +82,11 @@ router.put('/:id', function(req, res, next) {
     res.redirect(`/`)
   })
   .catch(err => {
-    next(err);
+    next(err)
   })
 })
 
-// ===== DELETE AN EXISTING SNACK =====
+// ===== DELETE AN EXISTING CONTACT =====
 router.delete('/:id',(req,res,next) => {
     let id = req.params.id
     let addressId = -1
@@ -97,8 +97,7 @@ router.delete('/:id',(req,res,next) => {
     .first()
     .then(result => {
       console.log(result)
-      addressId = result.address_id;
-
+      addressId = result.address_id
       db('contacts')
       .del()
       .where('id', id)
@@ -118,13 +117,14 @@ router.delete('/:id',(req,res,next) => {
             .del()
             .where('id', addressId)
             .then( () => {
-              console.log('wtf?');
+              console.log('wtf?')
             })
           }
         })
       })
     })
-  });
+    res.redirect('/contacts')
+  })
 
 
-module.exports = router;
+module.exports = router

@@ -10,6 +10,8 @@
       <p>phone: {{ this.phone_number }}</p>
       <p>line_1: {{ this.line_1 }}</p>
       <p>line_2: {{ this.line_2 }}</p>
+      <p>city: {{ this.city }}</p>
+      <p>zip: {{ this.zip }}</p>
       <form action="/contacts/{{ this.id }}?_method=DELETE" method="POST">
         <input
           class="btn btn-sm btn-default"

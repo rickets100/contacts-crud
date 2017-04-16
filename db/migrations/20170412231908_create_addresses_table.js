@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 exports.up = (knex) => {
   return knex.schema.createTable('addresses', table => {

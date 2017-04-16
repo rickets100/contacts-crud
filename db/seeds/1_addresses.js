@@ -33,11 +33,11 @@ exports.seed = function(knex, Promise) {
           city: 'Dubuque',
           zip: '88888'
         }
-      ]);
+      ])
     })
     .then(() => {
       return knex.raw(
-        "SELECT setval('addresses_id_seq', (SELECT MAX(id) FROM addresses));"
+        "SELECT setval('addresses_id_seq', (SELECT MAX(id) FROM addresses))"
       )
     })
 }

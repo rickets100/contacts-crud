@@ -45,11 +45,11 @@ exports.seed = function(knex, Promise) {
           email_address: 'bhope@comcast.net',
           address_id: 2
         }
-      ]);
+      ])
     })
     .then(() => {
       return knex.raw(
-        "SELECT setval('contacts_id_seq', (SELECT MAX(id) FROM contacts));"
+        "SELECT setval('contacts_id_seq', (SELECT MAX(id) FROM contacts))"
       )
     })
 }
