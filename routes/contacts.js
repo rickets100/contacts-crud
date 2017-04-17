@@ -1,6 +1,8 @@
 var express = require('express')
 var router = express.Router()
 var db = require('../db/connection')
+var bodyParser = require('body-parser')
+
 
 
 //======== GET ALL CONTACTS ========
@@ -23,6 +25,48 @@ router.get('/new', (req, res, next) => {
   console.log('IN ROUTER.GET /NEW');
 
   res.render('new')
+})
+
+// ====== UPDATE ONE CONTACT ======
+router.put('/new/:id', function(req, res, next) {
+  console.log('IN ROUTER.PUT /:ID')
+  let newAddress = {
+    line_1: req.body.line_1,
+    line_2: req.body.line_2,
+    city: req.body.city,
+    zip: req.body.zip
+  }
+  console.log('newAddress is',newAddress);
+
+  // let newContact = {
+  //   first_name: req.body.first_name,
+  //   last_name: req.body.last_name,
+  //   phone_number: req.body.phone_number,
+  //   email_address: req.body.email_address,
+  // }
+  // console.log('newAddress is ', newAddress)
+  // console.log('newContact is ', newContact)
+  //
+  let id = req.params.id
+  db('contacts')
+  .update(newContact)
+  .where('id', id)
+  .first()
+  .returning('address_id')
+  .then((bobId) => {
+    blah = bobId.address_id
+    console.log('result is ', blah)
+    db('addresses')
+    .update(newAddress)
+    .where('id', blah)
+    .first()
+    .then(() => {
+      res.redirect(`/new/${blah}`)
+    })
+  })
+  .catch(err => {
+    next(err)
+  })
 })
 
 //======== GET ONE CONTACT ========
@@ -57,7 +101,6 @@ router.post('/', (req, res, next) => {
     city: req.body.city,
     zip: req.body.zip
   }
-  console.log('newAddress is',newAddress);
   db('addresses')
   .insert(newAddress, '*')
   .then(insertedAddress => {
@@ -76,43 +119,6 @@ router.post('/', (req, res, next) => {
   })
 })
 
-// ====== UPDATE ONE CONTACT ======
-router.put('/:id', function(req, res, next) {
-  console.log('IN ROUTER.PUT /:ID');
-  let newAddress = {
-    line_1: req.body.line_1,
-    line_2: req.body.line_2,
-    city: req.body.city,
-    zip: req.body.zip
-  }
-  let newContact = {
-    first_name: req.body.first_name,
-    last_name: req.body.last_name,
-    phone_number: req.body.phone_number,
-    email_address: req.body.email_address,
-  }
-  let id = req.params.id
-  console.log('req.params.id is', req.params.id);
-  db('contacts')
-  .update(newContact)
-  .where('id', id)
-  .first()
-  .returning('address_id')
-  .then((bobId) => {
-    blah = bobId.address_id
-    console.log('result is ', blah)
-    db('addresses')
-    .update(newAddress)
-    .where('id', blah)
-    .first()
-    .then(() => {
-      res.redirect(`/new/${blah}`)
-    })
-  })
-  .catch(err => {
-    next(err)
-  })
-})
 
 // ===== DELETE AN EXISTING CONTACT =====
 router.delete('/:id',(req,res,next) => {

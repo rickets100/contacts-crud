@@ -12,8 +12,8 @@
       <p>line_2: {{ this.line_2 }}</p>
       <p>city: {{ this.city }}</p>
       <p>zip: {{ this.zip }}</p>
-      <div class="pull-left"
-      <form action="/contacts/{{ this.id }}?_method=DELETE" class="form-inline " method="POST">
+      <div class="pull-left">
+      <form action="/contacts/{{ this.id }}?_method=DELETE" class="form-inline" method="POST">
         <input
           class="btn btn-sm btn-danger"
           type="submit"
@@ -25,7 +25,7 @@
           <input
             class="btn btn-sm btn-success"
             type="submit"
-            name="edit"
+            name="put"
             value="Edit Contact">
           </form>
         <hr>
