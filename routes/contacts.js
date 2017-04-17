@@ -1,9 +1,11 @@
+// *********************************
+// Amber and I worked on the delete and put together. It eventually got too confusing working in parallel on two sets of code, so we switched to focusing on getting mine functional.
+// *********************************
+
 var express = require('express')
 var router = express.Router()
 var db = require('../db/connection')
 var bodyParser = require('body-parser')
-
-
 
 //======== GET ALL CONTACTS ========
 router.get('/', function(req, res, next) {
@@ -20,20 +22,23 @@ router.get('/', function(req, res, next) {
   })
 })
 
-// ========= GET FORMS PAGE ========
+// ========= GET FORMS PAGE TO CREATE A NEW CONTACT ========
 router.get('/new', (req, res, next) => {
   console.log('IN ROUTER.GET /NEW');
   res.render('new')
 })
 
 
-// ========= GET FORMS PAGE ========
+// ========= GET FORMS PAGE FOR AN EXISTING CONTACT ========
 router.get('/edit/:id', (req, res, next) => {
-  console.log('IN ROUTER.GET /NEW');
-  console.log('req.body is ', req.body);
+  console.log('IN ROUTER.GET /NEW')
+  var idToBeEdited = req.params.id
+  console.log('idToBeEdited', idToBeEdited)
   db('contacts')
   .select('*')
+  .where('id', idToBeEdited)
   .then((result) => {
+    console.log('result is ', result);
     // haven't gotten it to populate the info yet - that goes here
     res.render('new', result)
   })
