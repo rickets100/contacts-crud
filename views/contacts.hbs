@@ -5,20 +5,29 @@
     <div class="col-md-2">
     </div>
     <div class="col-md-6">
-      <a href="/contacts/{{ this.id }}"><h2>{{ this.first_name }} {{ this.last_name }}</h2></a>
+      <h2>{{ this.first_name }} {{ this.last_name }}</h2>
       <p>email: {{ this.email_address }}</p>
       <p>phone: {{ this.phone_number }}</p>
       <p>line_1: {{ this.line_1 }}</p>
       <p>line_2: {{ this.line_2 }}</p>
       <p>city: {{ this.city }}</p>
       <p>zip: {{ this.zip }}</p>
-      <form action="/contacts/{{ this.id }}?_method=DELETE" method="POST">
+      <div class="pull-left"
+      <form action="/contacts/{{ this.id }}?_method=DELETE" class="form-inline " method="POST">
         <input
-          class="btn btn-success"
+          class="btn btn-sm btn-danger"
           type="submit"
           name="delete"
           value="Delete Contact">
         </form>
+      </div>
+        <form action="/contacts/new/{{ this.id }}?_method=PUT" class="form-inline" method="POST">
+          <input
+            class="btn btn-sm btn-success"
+            type="submit"
+            name="edit"
+            value="Edit Contact">
+          </form>
         <hr>
       </div>
   </div>
