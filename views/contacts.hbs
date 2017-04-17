@@ -21,12 +21,10 @@
           value="Delete Contact">
         </form>
       </div>
-        <form action="/contacts/new/{{ this.id }}?_method=PUT" class="form-inline" method="POST">
+        <form action="/contacts/edit/{{ this.id }}" class="form-inline" method="GET">
           <input
             class="btn btn-sm btn-success"
-            type="submit"
-            name="put"
-            value="Edit Contact">
+            type="submit" value="Edit Contact">
           </form>
         <hr>
       </div>

@@ -9,9 +9,9 @@ var bodyParser = require('body-parser')
 router.get('/', function(req, res, next) {
   console.log('IN ROUTER.GET / ');
   db('contacts')
-    .select('contacts.id', 'first_name', 'last_name', 'phone_number', 'email_address', 'address_id', 'line_1', 'line_2', 'city', 'zip')
-    .innerJoin('addresses', 'contacts.address_id', 'addresses.id')
-    .orderBy('last_name')
+  .select('contacts.id', 'first_name', 'last_name', 'phone_number', 'email_address', 'address_id', 'line_1', 'line_2', 'city', 'zip')
+  .innerJoin('addresses', 'contacts.address_id', 'addresses.id')
+  .orderBy('last_name')
   .then(contact => {
     res.render('contacts', { contact })
   })
@@ -23,49 +23,19 @@ router.get('/', function(req, res, next) {
 // ========= GET FORMS PAGE ========
 router.get('/new', (req, res, next) => {
   console.log('IN ROUTER.GET /NEW');
-
   res.render('new')
 })
 
-// ====== UPDATE ONE CONTACT ======
-router.put('/new/:id', function(req, res, next) {
-  console.log('IN ROUTER.PUT /:ID')
-  let newAddress = {
-    line_1: req.body.line_1,
-    line_2: req.body.line_2,
-    city: req.body.city,
-    zip: req.body.zip
-  }
-  console.log('newAddress is',newAddress);
 
-  // let newContact = {
-  //   first_name: req.body.first_name,
-  //   last_name: req.body.last_name,
-  //   phone_number: req.body.phone_number,
-  //   email_address: req.body.email_address,
-  // }
-  // console.log('newAddress is ', newAddress)
-  // console.log('newContact is ', newContact)
-  //
-  let id = req.params.id
+// ========= GET FORMS PAGE ========
+router.get('/edit/:id', (req, res, next) => {
+  console.log('IN ROUTER.GET /NEW');
+  console.log('req.body is ', req.body);
   db('contacts')
-  .update(newContact)
-  .where('id', id)
-  .first()
-  .returning('address_id')
-  .then((bobId) => {
-    blah = bobId.address_id
-    console.log('result is ', blah)
-    db('addresses')
-    .update(newAddress)
-    .where('id', blah)
-    .first()
-    .then(() => {
-      res.redirect(`/new/${blah}`)
-    })
-  })
-  .catch(err => {
-    next(err)
+  .select('*')
+  .then((result) => {
+    // haven't gotten it to populate the info yet - that goes here
+    res.render('new', result)
   })
 })
 
@@ -74,25 +44,20 @@ router.get('/:id', function(req, res, next) {
   console.log('IN ROUTER.GET BY ID /:id');
   selectedId = req.params.id
   db('contacts')
-    .select('contacts.id', 'first_name', 'last_name', 'phone_number', 'email_address', 'address_id', 'line_1', 'line_2', 'city', 'zip')
-    .innerJoin('addresses', 'contacts.address_id', 'addresses.id')
-    .where('contacts.id', selectedId)
-    .then((contact)=> {
-      console.log('========hey there=========');
+  .select('contacts.id', 'first_name', 'last_name', 'phone_number', 'email_address', 'address_id', 'line_1', 'line_2', 'city', 'zip')
+  .innerJoin('addresses', 'contacts.address_id', 'addresses.id')
+  .where('contacts.id', selectedId)
+  .then((contact)=> {
+    console.log('========hey there=========');
 
-      res.render('show', { contact })
-    })
+    res.render('show', { contact })
+  })
   .catch(err => {
     next(err)
   })
 })
 
 // ===== CREATE A NEW CONTACT ======
-// create a new contact, with the proviso:
-// if req.params.addressId is not in addresses table,
-// else (this means the address already exists)
-// make the addressId field of the new contact = req.params.addressId
-
 router.post('/', (req, res, next) => {
   console.log('IN ROUTER.POST /');
   let newAddress = {
@@ -119,40 +84,78 @@ router.post('/', (req, res, next) => {
   })
 })
 
+// ====== UPDATE ONE CONTACT ======
+router.put('/new/:id', function(req, res, next) {
+  console.log('IN ROUTER.PUT /:ID')
+  console.log('req.body is',req.body);
+  let newAddress = {
+    line_1: req.body.line_1,
+    line_2: req.body.line_2,
+    city: req.body.city,
+    zip: req.body.zip
+  }
+
+  let newContact = {
+    first_name: req.body.first_name,
+    last_name: req.body.last_name,
+    phone_number: req.body.phone_number,
+    email_address: req.body.email_address,
+  }
+  let id = req.params.id
+  db('contacts')
+  .update(newContact)
+  .where('id', id)
+  .first()
+  .returning('address_id')
+  .then((bobId) => {
+    blah = bobId.address_id
+    console.log('result is ', blah)
+    db('addresses')
+    .update(newAddress)
+    .where('id', blah)
+    .first()
+    .then(() => {
+      res.redirect(`/new/${blah}`)
+    })
+  })
+  .catch(err => {
+    next(err)
+  })
+})
 
 // ===== DELETE AN EXISTING CONTACT =====
 router.delete('/:id',(req,res,next) => {
   console.log('IN ROUTER.DELETE /:ID');
-    let id = req.params.id
-    console.log('req/params.id is', req.params.id);
+  let id = req.params.id
+  console.log('req/params.id is', req.params.id);
+  db('contacts')
+  .where('id', id)
+  .select('*')
+  .first()
+  .then(result => {
+    addressId = result.address_id
     db('contacts')
+    .del()
     .where('id', id)
-    .select('*')
-    .first()
-    .then(result => {
-      addressId = result.address_id
+    .then( () => {
       db('contacts')
-      .del()
-      .where('id', id)
-      .then( () => {
-        db('contacts')
-        .where('address_id', addressId)
-        .count()
-        .first()
-        .then((result) => {
-          var count = result.count
-          if (count == 0) {
-            db('addresses')
-            .del()
-            .where('id', addressId)
-            .then( () => {
-            })
-          }
-        })
+      .where('address_id', addressId)
+      .count()
+      .first()
+      .then((result) => {
+        var count = result.count
+        if (count == 0) {
+          db('addresses')
+          .del()
+          .where('id', addressId)
+          .then( () => {
+          })
+        }
       })
     })
-    res.redirect('/contacts')
   })
+  res.redirect('/contacts')
+})
 
 
 module.exports = router
