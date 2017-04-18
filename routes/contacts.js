@@ -101,7 +101,7 @@ router.post('/', (req, res, next) => {
     return db('contacts')
     .insert(newContact)
     .returning('id')
-  }).then(id => {
+    }).then(id => {
     res.redirect('/contacts')
   })
 })
@@ -109,26 +109,28 @@ router.post('/', (req, res, next) => {
 // ====== UPDATE ONE CONTACT ======
 router.put('/:id', function(req, res, next) {
   console.log('IN ROUTER.PUT /:ID')
-  let newAddress = {
+  let address = {
     line_1: req.body.line_1,
     line_2: req.body.line_2,
     city: req.body.city,
     zip: req.body.zip
   }
-  let newContact = {
+  let contact = {
     first_name: req.body.first_name,
     last_name: req.body.last_name,
     phone_number: req.body.phone_number,
     email_address: req.body.email_address,
   }
-  let newContact_id = req.params.id
+  let contact_id = req.params.id
+  console.log('req.params.id is ', req.params.id)
+  console.log('req.body is ', req.body);
   db('contacts')
-  .update(newContact)
-  .where('id', newContact_id)
+  .update(contact)
+  .where('id', contact_id)
   .returning('address_id')
   .then(id => {
     db('addresses')
-    .update(newAddress)
+    .update(address)
     .where('id', id[0])
     .then(() => {
       res.redirect('/contacts')
