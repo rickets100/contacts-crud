@@ -44,7 +44,7 @@
       <div class="col-md-12">
         <div class="form-group">
           <label for="line-1">Address 1</label>
-          <input type="text"  class="form-control" id="line-1" value= "{{ address.line_1}}" name="line_1">
+          <input type="text"  class="form-control" id="line-1" value= "{{ contact.line_1}}" name="line_1">
         </div>
       </div>
     </div>
@@ -53,7 +53,7 @@
       <div class="col-md-12">
         <div class="form-group">
           <label for="line-2">Address 2</label>
-          <input type="text"  class="form-control" id="line-2" value= "{{ address.line_2}}" name="line_2">
+          <input type="text"  class="form-control" id="line-2" value= "{{ contact.line_2}}" name="line_2">
         </div>
       </div>
     </div>
@@ -62,7 +62,7 @@
       <div class="col-md-12">
         <div class="form-group">
           <label for="city">City</label>
-          <input type="text"  class="form-control" id="city" value= "{{ address.city}}" name="city">
+          <input type="text"  class="form-control" id="city" value= "{{ contact.city}}" name="city">
         </div>
       </div>
     </div>
@@ -71,11 +71,10 @@
       <div class="col-md-12">
         <div class="form-group">
           <label for="zip">Zip Code</label>
-          <input type="text"  class="form-control" id="zip" value= "{{ address.zip}}" name="zip" pattern="\d{5}-?(\d{4})?">
+          <input type="text"  class="form-control" id="zip" value= "{{ contact.zip}}" name="zip" pattern="\d{5}-?(\d{4})?">
         </div>
       </div>
     </div>
-
     <button type="submit" class="btn btn-default">Submit</button>
   </form>
 </div>

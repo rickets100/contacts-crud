@@ -22,26 +22,43 @@ router.get('/', function(req, res, next) {
   })
 })
 
-// ========= GET FORMS PAGE TO CREATE A NEW CONTACT ========
+// = GET FORMS PAGE TO CREATE A NEW CONTACT ==
 router.get('/new', (req, res, next) => {
   console.log('IN ROUTER.GET /NEW');
   res.render('new')
 })
 
 
-// ========= GET FORMS PAGE FOR AN EXISTING CONTACT ========
+// === GET FORMS PAGE FOR AN EXISTING CONTACT ==
 router.get('/edit/:id', (req, res, next) => {
   console.log('IN ROUTER.GET /NEW')
+  console.log('req.body is ', req.body)
+  console.log('req.params is ', req.params, '\n');
   var idToBeEdited = req.params.id
   console.log('idToBeEdited', idToBeEdited)
   db('contacts')
-  .select('*')
-  .where('id', idToBeEdited)
-  .then((result) => {
-    console.log('result is ', result);
-    // haven't gotten it to populate the info yet - that goes here
-    res.render('new', result)
+  .innerJoin('addresses', 'addresses.id', 'contacts.address_id')
+  .select('*', 'contacts.address_id as bob', 'addresses.id as mike')
+  .where('contacts.id', idToBeEdited)
+  .first()
+  .then(contact => {
+    console.log('contact is ', contact, '\n');
+    res.render('new', {contact})
   })
+  // db('contacts')
+  // .select('*')
+  // .where('id', idToBeEdited)
+  // .then((contactToEdit) => {
+  //   let newAddress = {
+  //     line_1: req.body.line_1,
+  //     line_2: req.body.line_2,
+  //     city: req.body.city,
+  //     zip: req.body.zip
+  //   }
+  //   console.log('result is ', contactToEdit)
+  //   console.log(('newAddress is', newAddress));
+  //   res.redirect('/')
+  // })
 })
 
 //======== GET ONE CONTACT ========
@@ -90,37 +107,31 @@ router.post('/', (req, res, next) => {
 })
 
 // ====== UPDATE ONE CONTACT ======
-router.put('/new/:id', function(req, res, next) {
+router.put('/:id', function(req, res, next) {
   console.log('IN ROUTER.PUT /:ID')
-  console.log('req.body is',req.body);
   let newAddress = {
     line_1: req.body.line_1,
     line_2: req.body.line_2,
     city: req.body.city,
     zip: req.body.zip
   }
-
   let newContact = {
     first_name: req.body.first_name,
     last_name: req.body.last_name,
     phone_number: req.body.phone_number,
     email_address: req.body.email_address,
   }
-  let id = req.params.id
+  let newContact_id = req.params.id
   db('contacts')
   .update(newContact)
-  .where('id', id)
-  .first()
+  .where('id', newContact_id)
   .returning('address_id')
-  .then((bobId) => {
-    blah = bobId.address_id
-    console.log('result is ', blah)
+  .then(id => {
     db('addresses')
     .update(newAddress)
-    .where('id', blah)
-    .first()
+    .where('id', id[0])
     .then(() => {
-      res.redirect(`/new/${blah}`)
+      res.redirect('/contacts')
     })
   })
   .catch(err => {
